@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Sample Assets</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #007bff;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .step {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        .step::before {
+            content: "→ ";
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WebAR Quick Setup</h1>
+        <p class="subtitle">Download sample assets to test your WebAR application</p>
+
+        <div class="section">
+            <h2>📦 Step 1: Download 3D Model</h2>
+            <p>Choose a sample 3D model (GLB format):</p>
+            <button onclick="downloadModel('Duck')">Download Duck Model</button>
+            <button onclick="downloadModel('DamagedHelmet')">Download Helmet Model</button>
+            <button onclick="downloadModel('Avocado')">Download Avocado Model</button>
+            
+            <div class="info">
+                <strong>Note:</strong> After downloading, move the model.glb file to the <code>assets/</code> folder
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Step 2: Create Target Image</h2>
+            <p>You need to generate a target.mind file:</p>
+            
+            <div class="step">Download or use your own target image (high-contrast, detailed)</div>
+            <div class="step">Visit the <a href="https://hiukim.github.io/mind-ar-js-doc/tools/compile" target="_blank">MindAR Compiler</a></div>
+            <div class="step">Upload your image</div>
+            <div class="step">Download the generated targets.mind file</div>
+            <div class="step">Rename it to target.mind and place in assets/ folder</div>
+            
+            <button onclick="window.open('https://hiukim.github.io/mind-ar-js-doc/tools/compile', '_blank')">
+                Open MindAR Compiler
+            </button>
+            <button onclick="downloadSampleTarget()">Download Sample Target Image</button>
+            
+            <div class="warning">
+                <strong>Important:</strong> Print or display the target image on another screen for testing
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🖥️ Step 3: Run Local Server</h2>
+            <p>Choose your preferred method:</p>
+            
+            <div class="step"><strong>VS Code:</strong> Install Live Server extension, right-click index.html → "Open with Live Server"</div>
+            <div class="step"><strong>Python:</strong> <code>python -m http.server 8000</code></div>
+            <div class="step"><strong>Node.js:</strong> <code>npx http-server -p 8000</code></div>
+            <div class="step"><strong>Vite:</strong> <code>npx vite</code></div>
+            
+            <div class="info">
+                <strong>Access on mobile:</strong> Find your computer's IP address and navigate to http://YOUR_IP:PORT
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📱 Step 4: Test on Mobile</h2>
+            <div class="step">Open the app on your mobile browser (HTTPS or localhost)</div>
+            <div class="step">Allow camera permissions</div>
+            <div class="step">Point camera at your target image</div>
+            <div class="step">3D model appears!</div>
+            <div class="step">Tap screen to rotate model</div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Checklist</h2>
+            <label><input type="checkbox"> Downloaded model.glb to assets/</label><br>
+            <label><input type="checkbox"> Generated target.mind file</label><br>
+            <label><input type="checkbox"> Placed target.mind in assets/</label><br>
+            <label><input type="checkbox"> Started local server</label><br>
+            <label><input type="checkbox"> Printed/displayed target image</label><br>
+            <label><input type="checkbox"> Tested on mobile with camera</label>
+        </div>
+    </div>
+
+    <script>
+        function downloadModel(modelName) {
+            const models = {
+                'Duck': 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
+                'DamagedHelmet': 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb',
+                'Avocado': 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb'
+            };
+            
+            const url = models[modelName];
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'model.glb';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            alert(`Downloading ${modelName} model...\nSave it as "model.glb" in the assets/ folder`);
+        }
+
+        function downloadSampleTarget() {
+            const url = 'https://raw.githubusercontent.com/hiukim/mind-ar-js/master/examples/image-tracking/assets/card-example/card.png';
+            window.open(url, '_blank');
+            alert('Opening sample target image...\nSave this image, then use the MindAR Compiler to generate target.mind');
+        }
+    </script>
+</body>
+</html>
